@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image,Alert } from 'react-native';
 import {SwipeRow,Button,Icon} from 'native-base';
 import HeaderAdd from '../components/HeaderAdd';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import {AccountIcon} from '../config/icon';
-import { getAccount } from '../database/firebaseDB'
+import { getAccount,deleteItem } from '../database/firebaseDB'
 import * as firebase from 'firebase'
 
  class Account extends Component {
@@ -27,11 +27,25 @@ import * as firebase from 'firebase'
           })
     }
     componentWillUnmount(){
-        
+        firebase.database().ref().off()
     }
    
     removeAccount(item){
-       
+        Alert.alert(
+            'Cảnh báo',
+            'Xoá account này bạn sẽ xoá luôn các giao dịch sử dụng chúng. Bạn có chắc muốn xoá không',
+            [
+                { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                {
+                    text: 'OK', onPress: () => {
+                        deleteItem(item.key,'Account').then(() => {
+
+                        })
+                    }
+                },
+            ],
+            { cancelable: false }
+        )
     }
     renderItems(item) {
 

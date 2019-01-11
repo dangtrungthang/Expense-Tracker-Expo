@@ -9,6 +9,9 @@ import Account from './app/screens/Account';
 import AddAccount from './app/screens/AddAccount';
 import Category from './app/screens/Category';
 import AddCategory from './app/screens/AddCategory';
+import EditAccount from './app/screens/EditAccount';
+import EditCategory from './app/screens/EditCategory';
+import Note from './app/screens/Note';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import * as firebase from 'firebase'
 import { Provider } from 'react-redux';
@@ -33,6 +36,9 @@ const AppNavigatorLogged = createStackNavigator({
   AddAccount:{screen:AddAccount},
   Category:{screen:Category},
   AddCategory:{screen:AddCategory},
+  EditAccount:{screen:EditAccount},
+  EditCategory:{screen:EditCategory},
+  Note:{screen:Note}
 },
   {
     headerMode: 'none',

@@ -7,7 +7,7 @@ import Segment from '../components/Segment';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import { CategoryIcon } from '../config/icon';
-import { getCategory, deleteCategory } from '../database/firebaseDB'
+import { getCategory, deleteItem} from '../database/firebaseDB'
 
 class Category extends Component {
     constructor(props) {
@@ -42,7 +42,7 @@ class Category extends Component {
 
     }
     componentWillUnmount() {
-        firebase.database().ref().off
+        firebase.database().ref().off()
     }
 
     removeCategory(item) {
@@ -53,7 +53,7 @@ class Category extends Component {
                 { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
                 {
                     text: 'OK', onPress: () => {
-                        deleteCategory(item.key).then(() => {
+                        deleteItem(item.key,'Category').then(() => {
 
                         })
                     }

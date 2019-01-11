@@ -30,7 +30,7 @@ export const getCategory = data => new Promise((resolve, reject) => {
             data.push({
                 key: doc.key,
                 name: doc.toJSON().name,
-                icon:mapToArray(doc.val().icon, CategoryIcon),
+                icon: mapToArray(doc.val().icon, CategoryIcon),
                 isExpense: doc.toJSON().isExpense,
                 iconName: doc.val().icon
             })
@@ -66,9 +66,42 @@ export const addCategory = data => new Promise((resolve, reject) => {
         isExpense: data.isExpense
     })
 })
-//Delete Category with key
-export const deleteCategory=key=>new Promise((resolve,reject)=>{
+//Delete Item with key
+export const deleteItem = (key, schemas) => new Promise((resolve, reject) => {
     const uID = firebase.auth().currentUser.uid
-    firebase.database().ref(uID + '/Category/'+key).remove()
+    firebase.database().ref(uID + '/' + schemas + '/' + key).remove()
     resolve()
+})
+// Update Account with key
+export const updateAccount = (key, data) => new Promise((resolve, reject) => {
+    const uID = firebase.auth().currentUser.uid
+    firebase.database().ref(uID + '/Account/' + key).update({
+        icon: data.icon,
+        name: data.name,
+        opendingBlance: data.opendingBlance,
+        endingBlance: 0,
+    })
+    resolve()
+})
+// Update Category with key
+export const updateCategory = (key, data) => new Promise((resolve, reject) => {
+    const uID = firebase.auth().currentUser.uid
+    firebase.database().ref(uID + '/Category/' + key).update({
+        icon: data.icon,
+        name: data.name,
+        isExpense: data.isExpense
+    })
+    resolve()
+})
+
+//Add Transaction
+export const addTransaction = data => new Promise((resolve, reject) => {
+    const uID = firebase.auth().currentUser.uid
+    firebase.database().ref(uID + '/Transactions').push({
+        amount: data.amount,
+        category: data.category,
+        note: data.note,
+        date: data.date,
+        account:data.account
+    })
 })

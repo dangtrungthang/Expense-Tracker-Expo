@@ -5,7 +5,7 @@ import ListSelector from '../components/ListSelector';
 import InputComponent from '../components/InputComponent';
 import { connect } from 'react-redux';
 import Moment from 'moment';
-
+import { addTransaction} from '../database/firebaseDB'
 class AddTransaction extends Component {
     constructor(props) {
         super(props)
@@ -16,7 +16,14 @@ class AddTransaction extends Component {
         }
     }
     onPressAdd = () => {
-     
+        const data={
+            amount:this.state.amount,
+            category:this.props.category.key,
+            note:this.props.note,
+            date:Moment(this.state.date).format('DD-MM-YYYY'),
+            account:this.props.account.key           
+        }
+     addTransaction(data).then(()=>{})
        
     }
     render() {
