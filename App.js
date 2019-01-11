@@ -4,10 +4,18 @@ import Login from './app/screens/Login';
 import Register from './app/screens/Register';
 import LoginWithNumPhone from './app/screens/LoginWithNumPhone';
 import MainScreen from './app/screens/MainScreen';
+import AddTransaction from './app/screens/AddTransaction';
+import Account from './app/screens/Account';
+import AddAccount from './app/screens/AddAccount';
+import Category from './app/screens/Category';
+import AddCategory from './app/screens/AddCategory';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import * as firebase from 'firebase'
- // Initialize Firebase
- var config = {
+import { Provider } from 'react-redux';
+import allReducers from './app/reducers/allReducers';
+import { createStore } from 'redux';
+// Initialize Firebase
+var config = {
   apiKey: "AIzaSyCjksPh7k6I5N_96XaAjA0qALv2T0fGGPY",
   authDomain: "expense-tracker-34818.firebaseapp.com",
   databaseURL: "https://expense-tracker-34818.firebaseio.com",
@@ -16,15 +24,20 @@ import * as firebase from 'firebase'
   messagingSenderId: "70285161265"
 };
 firebase.initializeApp(config);
-const AppNavigatorLogged = createStackNavigator({
-  
-  Main: { screen: MainScreen },
 
+const AppNavigatorLogged = createStackNavigator({
+
+  Main: { screen: MainScreen },
+  AddTransaction: { screen: AddTransaction },
+  Account: { screen: Account },
+  AddAccount:{screen:AddAccount},
+  Category:{screen:Category},
+  AddCategory:{screen:AddCategory},
 },
   {
     headerMode: 'none',
     navigationOptions: {
-        headerVisible: false,
+      headerVisible: false,
     }
   },
   {
@@ -33,30 +46,30 @@ const AppNavigatorLogged = createStackNavigator({
 );
 const AppNavigatorLogin = createStackNavigator({
   Login: { screen: Login },
-  Register:{screen:Register},
-  LoginWithNumPhone:{screen:LoginWithNumPhone}
-  
+  Register: { screen: Register },
+  LoginWithNumPhone: { screen: LoginWithNumPhone }
+
 
 },
   {
     headerMode: 'none',
     navigationOptions: {
-        headerVisible: false,
+      headerVisible: false,
     }
   },
   {
     initialRouteKey: 'Login'
   }
 );
-const NavLogged=createAppContainer(AppNavigatorLogged)
-const NavLogin=createAppContainer(AppNavigatorLogin)
-
+const NavLogged = createAppContainer(AppNavigatorLogged)
+const NavLogin = createAppContainer(AppNavigatorLogin)
+let store = createStore(allReducers);
 export default class App extends React.Component {
   constructor(props) {
     super(props)
-  
+
     this.state = {
-       loading:true
+      loading: true
     };
   };
   componentDidMount() {
@@ -81,17 +94,25 @@ export default class App extends React.Component {
     this.authSubscription();
   }
   render() {
-    
-      // The application is initialising
+
+    // The application is initialising
     if (this.state.loading) return null;
     // The user is an Object, so they're logged in
-    if (this.state.user) return <NavLogged/>;
+    if (this.state.user) return (
+      <Provider store={store}>
+        <NavLogged />
+      </Provider>);
     // The user is null, so they're logged out
-    return <NavLogin  />;
-      
-       
-      
-    
+    return (
+      <Provider store={store}>
+        <NavLogin />
+      </Provider>);
+
+
+
+    <Provider store={store}>
+      <NavLogged />
+    </Provider>
   }
 }
 
