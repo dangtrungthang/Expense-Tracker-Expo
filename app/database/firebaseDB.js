@@ -1,6 +1,10 @@
 import * as firebase from 'firebase'
 import { AccountIcon, CategoryIcon } from '../config/icon';
 // getAccount from firebase database
+export const getUser=()=>new Promise((resolve, reject) => {
+    const uID = firebase.auth().currentUser.uid
+    resolve(uID)
+})
 export const getAccount = data => new Promise((resolve, reject) => {
     const uID = firebase.auth().currentUser.uid
     firebase.database().ref(uID + '/Account').on('value', (snap) => {
@@ -98,6 +102,17 @@ export const addCategory = data => new Promise((resolve, reject) => {
         isExpense: data.isExpense
     })
 })
+//Add Transaction
+export const addTransaction = data => new Promise((resolve, reject) => {
+    const uID = firebase.auth().currentUser.uid
+    firebase.database().ref(uID + '/Transactions').push({
+        amount: data.amount,
+        category: data.category,
+        note: data.note,
+        date: data.date,
+        account: data.account
+    })
+})
 //Delete Item with key
 export const deleteItem = (key, schemas) => new Promise((resolve, reject) => {
     const uID = firebase.auth().currentUser.uid
@@ -126,15 +141,3 @@ export const updateCategory = (key, data) => new Promise((resolve, reject) => {
     resolve()
 })
 
-//Add Transaction
-export const addTransaction = data => new Promise((resolve, reject) => {
-    const uID = firebase.auth().currentUser.uid
-    firebase.database().ref(uID + '/Transactions').push({
-        amount: data.amount,
-        category: data.category,
-        note: data.note,
-        date: data.date,
-        account: data.account
-    })
-    resolve()
-})

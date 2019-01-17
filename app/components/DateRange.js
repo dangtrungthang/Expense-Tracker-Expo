@@ -28,7 +28,7 @@ export default class DateRange extends Component {
     }
     //  khoảng thời gian  
     rangeDay(type) {
-        let range = moment().range("2018-01-01", "2018-12-31")
+        let range = moment().range("2018-01-01", "2019-12-31")
         let array = []
         let data = []
         switch (type) {
@@ -43,6 +43,7 @@ export default class DateRange extends Component {
             case 'months':
                 array = Array.from(range.by("months"))
                 array.map(m => { data.push(m.format("MM")) })
+                data.unshift('...')
                 return data
             case 'range':
                
@@ -52,7 +53,7 @@ export default class DateRange extends Component {
                 array.push('',SE,'')
                 return array
             case 'quarter':
-                return ['Q1', 'Q2', 'Q3', 'Q4']
+                return ['...','Q1', 'Q2', 'Q3', 'Q4']
             default: return []
         }
 
@@ -64,7 +65,7 @@ export default class DateRange extends Component {
     render() {
         let value = this.rangeDay(this.props.type).slice(this.props.index, this.props.index + 3)
         let index = this.props.index
-
+       
         return (
 
             <View style={styles.container}>
@@ -107,7 +108,7 @@ export function indexDateCurrent(type) {
             date1 = new Date()
             date2 = new Date('2018-01-01')
             var res = Math.abs(date1 - date2) / 1000;
-            var days = Math.floor(res / 86400);
+            var days = Math.floor(res / 86400)-1;
 
             return days
         case 'weeks':
@@ -118,9 +119,10 @@ export function indexDateCurrent(type) {
             var days = Math.floor(res / 86400);
            return days/7-1
         case 'months':
-            return Number(M(new Date()).format('MM'))-2
+            
+            return Number(M(new Date()).format('MM'))-1
         case 'quarter':
-            return Math.ceil(Number(M(new Date()).format('MM')) / 3 - 2)
+            return Math.ceil(Number(M(new Date()).format('MM')) / 3 - 1)
             case 'range':
             return 0
         default: return 5

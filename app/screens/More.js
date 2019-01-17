@@ -1,4 +1,4 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -9,7 +9,7 @@ import * as firebase from 'firebase'
 export default class More extends Component {
     state = {
         dialogVisible: false,
-        atmName: '',accountName:''
+        atmName: '', accountName: ''
     };
 
     showDialog() {
@@ -24,23 +24,23 @@ export default class More extends Component {
         Linking.openURL('https://www.google.com/maps/search/?api=1&query=atm+' + this.state.atmName.toString());
         this.setState({ dialogVisible: false });
     };
-    logOut(){
+    logOut() {
         firebase.auth().signOut()
-       
+
     }
-    getEmailUser(){
-        var user=firebase.auth().currentUser
+    getEmailUser() {
+        var user = firebase.auth().currentUser
         var uID
-        if(user!=null){
-           
-              this.setState({accountName:user.email})
+        if (user != null) {
+
+            this.setState({ accountName: user.email })
         }
     }
-    componentDidMount(){
+    componentDidMount() {
         this.getEmailUser()
     }
     render() {
-       
+
         return (
             <View>
                 <View style={styles.logoContainer}>
@@ -73,13 +73,17 @@ export default class More extends Component {
                         avatar={require('../assets/icons/images/atm.png')}
                         onPress={() => this.showDialog()}
                     />
+                    <TouchableOpacity onPress={()=>
+                       this.props.navigation.navigate('PassCode')
+                    }>
+                        <ListItem
+                            roundAvatar
+                            title={"Passcode"}
+                            subtitle={"Set passcode to protect your information"}
+                            avatar={require('../assets/icons/images/passcode.png')}
+                        />
+                    </TouchableOpacity>
 
-                    <ListItem
-                        roundAvatar
-                        title={"Passcode"}
-                        subtitle={"Set passcode to protect your information"}
-                        avatar={require('../assets/icons/images/passcode.png')}
-                    />
 
                     <ListItem
                         roundAvatar
@@ -92,7 +96,7 @@ export default class More extends Component {
                 <TouchableOpacity onPress={() => {
                     this.logOut()
                     this.props.navigation.navigate('Login')
-            }}>
+                }}>
                     <Text style={styles.logoutButtonText}>LOG OUT</Text>
                 </TouchableOpacity>
 
@@ -105,8 +109,8 @@ export default class More extends Component {
                         placeholder="ATM name"
                         onChangeText={atmName => this.setState({ atmName })}
                     />
-                    <Dialog.Button label="Cancel" onPress={()=>this.handleCancel()} />
-                    <Dialog.Button label="Find" onPress={()=>this.handleFind()} />
+                    <Dialog.Button label="Cancel" onPress={() => this.handleCancel()} />
+                    <Dialog.Button label="Find" onPress={() => this.handleFind()} />
                 </Dialog.Container>
             </View>
         );

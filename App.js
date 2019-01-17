@@ -14,11 +14,13 @@ import AddCategory from './app/screens/AddCategory';
 import EditAccount from './app/screens/EditAccount';
 import EditCategory from './app/screens/EditCategory';
 import Note from './app/screens/Note';
+import PassCode from './app/screens/PassCode';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import * as firebase from 'firebase'
 import { Provider } from 'react-redux';
 import allReducers from './app/reducers/allReducers';
 import { createStore } from 'redux';
+
 import selectAccount from './app/reducers/selectAccount';
 // Initialize Firebase
 var config = {
@@ -43,7 +45,8 @@ const AppNavigatorLogged = createStackNavigator({
   EditCategory:{screen:EditCategory},
   Note:{screen:Note},
   InfoTransaction:{screen:InfoTransaction},
-  SelectAccount:{screen:SelectAccount}
+  SelectAccount:{screen:SelectAccount},
+  PassCode:{screen:PassCode}
 },
   {
     headerMode: 'none',
