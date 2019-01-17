@@ -39,12 +39,44 @@ export const getCategory = data => new Promise((resolve, reject) => {
         resolve(data)
     })
 })
+// get data transactions
+export const getTransactions = data => new Promise((resolve, reject) => {
+    const uID = firebase.auth().currentUser.uid
+    firebase.database().ref(uID + '/Transactions').on('value', (snap) => {
+        data = []
+        getCategory().then((categoryData) => {
+            snap.forEach((doc) => {
+                tempCategory=mapToArrayCategory(doc.toJSON().category, categoryData)
+                data.push({
+                    key: doc.key,
+                    account: doc.toJSON().account,
+                    amount: doc.toJSON().amount,
+                    category:tempCategory,
+                    date: doc.toJSON().date,
+                    note: doc.toJSON().note,
+                    icon:mapToArray(tempCategory.iconName,CategoryIcon)
+                })
+            })
+            resolve(data)
+        })
+
+
+    })
+})
 //
 const mapToArray = (name, data) => {
 
     for (i = 0; i < data.length; i++) {
         if (data[i].name === name) {
             return data[i].icon
+        }
+    }
+}
+//
+const mapToArrayCategory = (id, data) => {
+    for (i = 0; i < data.length; i++) {
+        if (data[i].key == id) {
+            return data[i]
         }
     }
 }
@@ -102,6 +134,7 @@ export const addTransaction = data => new Promise((resolve, reject) => {
         category: data.category,
         note: data.note,
         date: data.date,
-        account:data.account
+        account: data.account
     })
+    resolve()
 })

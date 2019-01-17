@@ -5,26 +5,30 @@ import ListSelector from '../components/ListSelector';
 import InputComponent from '../components/InputComponent';
 import { connect } from 'react-redux';
 import Moment from 'moment';
-import { addTransaction} from '../database/firebaseDB'
+import { addTransaction } from '../database/firebaseDB'
 class AddTransaction extends Component {
     constructor(props) {
         super(props)
         this.state = {
             date: new Date(),
-            amount:0
-            
+            amount: 0
+
         }
     }
-    onPressAdd = () => {
-        const data={
-            amount:this.state.amount,
-            category:this.props.category.key,
-            note:this.props.note,
-            date:Moment(this.state.date).format('DD-MM-YYYY'),
-            account:this.props.account.key           
+    onPressAdd() {
+        const data = {
+            amount: this.state.amount,
+            category: this.props.category.key,
+            note: this.props.note,
+            date: Moment(this.state.date).format('DD-MM-YYYY'),
+            account: this.props.account.key
         }
-     addTransaction(data).then(()=>{})
-       
+        addTransaction(data).then((account) => {
+
+        }).catch((error) => {
+            alert(`${error}`)
+        })
+        this.props.navigation.goBack()
     }
     render() {
         return (
@@ -35,13 +39,13 @@ class AddTransaction extends Component {
                     title='Add Transaction'
                     onPressLeft={() => this.props.navigation.goBack()}
                     onPressRight={() => this.onPressAdd()} />
-                
+
                 <InputComponent
                     title='Amount'
                     placeholder='0'
                     icon={require('../assets/icons/VND.png')}
                     keyboardType='decimal-pad'
-                    onChangeText={(text)=>this.setState({amount:text})}
+                    onChangeText={(text) => this.setState({ amount: text })}
                 />
                 <ListSelector
                     title={this.props.category.name}
@@ -49,21 +53,21 @@ class AddTransaction extends Component {
                     onPress={() => this.props.navigation.navigate("Category")}
                 />
                 <ListSelector
-                    title={this.props.note?this.props.note:'Note'}
-                    onPress={()=>this.props.navigation.navigate('Note')}
+                    title={this.props.note ? this.props.note : 'Note'}
+                    onPress={() => this.props.navigation.navigate('Note')}
                     icon={require('../assets/icons/note.png')} />
                 <ListSelector
                     title='Today'
                     icon={require('../assets/icons/calendar.png')}
                     isShowDatePicker={true}
-                   
+
                     onDateChange={(date) => this.setState({ date: date })}>
 
                 </ListSelector>
                 <ListSelector
                     title={this.props.account.name}
                     icon={this.props.account.icon}
-                    onPress={() => this.props.navigation.navigate("Account")}/>
+                    onPress={() => this.props.navigation.navigate("Account")} />
 
             </View>
         );
@@ -71,16 +75,16 @@ class AddTransaction extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-       category: state.category,
-       account:state.account,
-       note:state.note
+        category: state.category,
+        account: state.account,
+        note: state.note
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-     
-    }
-  }
 
-export default connect(mapStateToProps,mapDispatchToProps )(AddTransaction);
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddTransaction);

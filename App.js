@@ -5,6 +5,8 @@ import Register from './app/screens/Register';
 import LoginWithNumPhone from './app/screens/LoginWithNumPhone';
 import MainScreen from './app/screens/MainScreen';
 import AddTransaction from './app/screens/AddTransaction';
+import InfoTransaction from './app/screens/InfoTransaction';
+import SelectAccount from './app/screens/SelectAccount';
 import Account from './app/screens/Account';
 import AddAccount from './app/screens/AddAccount';
 import Category from './app/screens/Category';
@@ -17,6 +19,7 @@ import * as firebase from 'firebase'
 import { Provider } from 'react-redux';
 import allReducers from './app/reducers/allReducers';
 import { createStore } from 'redux';
+import selectAccount from './app/reducers/selectAccount';
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyCjksPh7k6I5N_96XaAjA0qALv2T0fGGPY",
@@ -38,7 +41,9 @@ const AppNavigatorLogged = createStackNavigator({
   AddCategory:{screen:AddCategory},
   EditAccount:{screen:EditAccount},
   EditCategory:{screen:EditCategory},
-  Note:{screen:Note}
+  Note:{screen:Note},
+  InfoTransaction:{screen:InfoTransaction},
+  SelectAccount:{screen:SelectAccount}
 },
   {
     headerMode: 'none',

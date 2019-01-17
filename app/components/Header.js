@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity,Image } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as colors from '../config/colors'
@@ -14,8 +14,11 @@ export default class Header extends Component {
         return (
             <View style={styles.rootContainer}>
                 <View style={styles.headerContainer}>
-                    <TouchableOpacity onPress={this.props.onPressMenuDown}>
+                    <TouchableOpacity 
+                    style={{flexDirection:'row'}}
+                    onPress={this.props.onPressMenuDown}>
                         <MaterialCommunityIcons name='menu-down' size={30} color={'white'} />
+                        <Image  style={{width:30,height:30}} source={require('../assets/icons/symbol.png')}/>
                     </TouchableOpacity>
                     <Text style={styles.titleHeader}> Add Transactions</Text>
                     <TouchableOpacity onPress={this.props.onPressAdd}>
